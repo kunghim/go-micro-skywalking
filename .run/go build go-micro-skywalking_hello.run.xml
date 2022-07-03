@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build go-micro-skywalking/cmd/hello" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="go-micro-skywalking" />
+    <working_directory value="$PROJECT_DIR$" />
+    <package value="go-micro-skywalking/cmd/hello" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/cmd/hello/app.go" />
+  </configuration>
+</component>
