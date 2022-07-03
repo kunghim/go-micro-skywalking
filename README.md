@@ -49,11 +49,23 @@ go get -u github.com/SkyAPM/go2sky-plugins/micro@latest
 ![image](https://user-images.githubusercontent.com/104054614/177054144-fef33f7d-7377-41c9-9340-8107446716be.png)
 
 或者你可以通过携带 skywalking agent service 地址参数的命令启动
-进入 /cmd/notice 目录，通过以下命令启动 notice 服务
+以 notice 服务为例：
 ```shell
-go run app.go -a="127.0.0.1:11800"
+go run cmd/notice/app.go a="127.0.0.1:11800"
 ```
-其中 -a 为skywalking agent service 的地址
+其中 a 为skywalking agent service 地址的参数名称
+
+![image](https://user-images.githubusercontent.com/104054614/177054675-7eeeabe0-06d3-4932-9d77-6892528c5deb.png)
 
 hello 服务和 client 客户端同理
 先启动 notice，然后启动 hello，最后启动 client 进行测试
+
+![image](https://user-images.githubusercontent.com/104054614/177054752-f4963c59-5091-46d5-a9b2-2b05737a7096.png)
+
+打开 skywalking ui 界面查看
+
+![image](https://user-images.githubusercontent.com/104054614/177054795-5afd5a43-4e5b-4db1-9d6d-61cfa3c3e87e.png)
+![image](https://user-images.githubusercontent.com/104054614/177054805-c7105420-8d40-49bf-9b3c-eec3d25435ba.png)
+
+
+
