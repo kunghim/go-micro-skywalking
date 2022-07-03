@@ -67,5 +67,7 @@ hello 服务和 client 客户端同理
 ![image](https://user-images.githubusercontent.com/104054614/177054795-5afd5a43-4e5b-4db1-9d6d-61cfa3c3e87e.png)
 ![image](https://user-images.githubusercontent.com/104054614/177054805-c7105420-8d40-49bf-9b3c-eec3d25435ba.png)
 
+## 参考文献
+[Go2sky with go-micro](https://github.com/SkyAPM/go2sky-plugins/tree/master/micro)
 
-
+## 感谢支持
