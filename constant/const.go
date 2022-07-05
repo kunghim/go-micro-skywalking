@@ -1,7 +1,7 @@
 package constant
 
 const (
-	SwServerAddr = "192.168.1.6:11800"
+	SwServerAddr = "127.0.0.1:11800"
 
 	ClientTracer = "skywalking-client"
 	HelloTracer  = "skywalking-hello"
@@ -10,4 +10,8 @@ const (
 	ClientMicroServer = "micro-client"
 	HelloMicroServer  = "micro-hello"
 	NoticeMicroServer = "micro-notice"
+
+	ClientMicroAddress = "127.0.0.1:8901"
+	HelloMicroAddress  = "127.0.0.1:8902"
+	NoticeMicroAddress = "127.0.0.1:8903"
 )

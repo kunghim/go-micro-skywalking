@@ -35,6 +35,7 @@ func main() {
 
 	// 创建 micro 服务
 	service := micro.NewService(
+		micro.Address(cons.NoticeMicroAddress),
 		// 设置 micro 服务名称
 		micro.Name(cons.NoticeMicroServer),
 		// 加入 opentracing 的中间件
