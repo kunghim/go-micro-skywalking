@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	"github.com/SkyAPM/go2sky"
+	"go-micro-skywalking/go2sky"
 	"go-micro-skywalking/proto/hello"
 	"go-micro-skywalking/proto/notice"
 	"log"
@@ -11,19 +11,18 @@ import (
 
 type HelloService struct {
 	NoticeServer notice.NoticeService
-	Tracer       *go2sky.Tracer
+	Trace        *go2sky.Trace
 }
 
 func (h HelloService) Call(ctx context.Context, request *hello.CallRequest, response *hello.CallResponse) error {
 	log.Println("this is HelloService.Call")
 	response.Msg = "Hello, " + request.Name
-	span, ctx, err := h.Tracer.CreateLocalSpan(ctx)
+	span, ctx, err := h.Trace.CreateSpan(ctx, "HelloSpan")
 	if err != nil {
 		log.Fatal("创建 HelloSpan 失败 -> ", err)
 		return err
 	}
 	defer span.End()
-	span.SetOperationName("HelloSpan")
 	span.Tag("CallRequest.Name", request.Name)
 	span.Log(time.Now(), "this is HelloService.Call", "receive client request success")
 	// 调用 notice 服务的 send 接口

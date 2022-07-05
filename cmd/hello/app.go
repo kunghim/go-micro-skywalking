@@ -1,55 +1,39 @@
 package main
 
 import (
-	"flag"
-	"github.com/SkyAPM/go2sky"
 	micro4sky "github.com/SkyAPM/go2sky-plugins/micro"
-	"github.com/SkyAPM/go2sky/reporter"
 	"github.com/asim/go-micro/v3"
 	cons "go-micro-skywalking/constant"
+	"go-micro-skywalking/go2sky"
 	"go-micro-skywalking/handler"
 	"go-micro-skywalking/proto/hello"
 	"go-micro-skywalking/proto/notice"
 	"log"
-	"time"
 )
 
-var skyWalkingUrl string
-
-func init() {
-	flag.StringVar(&skyWalkingUrl, "a", cons.SwServerAddr, "set your skywalking server address")
-	flag.Parse()
-}
-
 func main() {
-	//Use gRPC reporter for production
-	r, err := reporter.NewGRPCReporter(skyWalkingUrl, reporter.WithCheckInterval(5*time.Second))
+	trace, err := go2sky.NewGRPCReporter(cons.SwServerAddr, cons.HelloTracer)
 	if err != nil {
-		log.Fatalf("new reporter error %v \n", err)
+		log.Fatalf("new trace error %v \n", err)
+		return
 	}
-	defer r.Close()
-
-	tracer, err := go2sky.NewTracer(cons.HelloTracer, go2sky.WithReporter(r))
-	if err != nil {
-		log.Fatalf("create tracer error %v \n", err)
-	}
-
+	defer trace.Reporter.Close()
 	// 创建 micro 服务
 	service := micro.NewService(
 		micro.Address(cons.HelloMicroAddress),
 		// 设置 micro 服务名称
 		micro.Name(cons.HelloMicroServer),
 		// 加入 opentracing 的中间件
-		micro.WrapHandler(micro4sky.NewHandlerWrapper(tracer, "HelloMicroServer")),
+		micro.WrapHandler(micro4sky.NewHandlerWrapper(trace.Tracer, "HelloMicroServer")),
 	)
 	// 初始化 micro 服务
 	service.Init()
 
 	// 获取 micro-notice 服务的 noticeService，才能在 Call 中调用 notice send
 	noticeService := notice.NewNoticeService(cons.NoticeMicroServer, service.Client())
-	err = hello.RegisterHelloWorldHandler(service.Server(), handler.HelloService{Tracer: tracer, NoticeServer: noticeService})
+	err = hello.RegisterHelloWorldHandler(service.Server(), handler.HelloService{Trace: trace, NoticeServer: noticeService})
 	if err != nil {
-		log.Fatal("注册 server service 失败 -> ", err)
+		log.Fatal("注册 hello service 失败 -> ", err)
 		return
 	}
 
